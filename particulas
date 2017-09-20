@@ -1,18 +1,20 @@
 ArrayList <particula> particulas;
 
 void setup() {
-  size (500, 500);
-  println("TAU: "+TAU);
-  particulas = new ArrayList<particula>(); 
-  for (int i=0; i<100; i++) {
+  size (600, 600);
+  println("TAU: "+TAU); 
+
+  particulas = new ArrayList<particula>();
+  for (int i=1; i<30; i++) {
     particulas.add(new particula());
   }
 }
 void draw() {
-  background(0);
+  background(#68EAE3);
   for (particula p : particulas) {
     p.display();
     p.movimiento();
+    p.botar();
   }
 }
 void mousePressed() {
@@ -21,37 +23,31 @@ void mousePressed() {
 }
 
 class particula {
-  float x, y, v, a, t, deltax, deltay;
+  float x, y, v, a, t;
   color c;  
-  particula (float x_, float y_, float v_, float a_, float t_, color c_, float deltax_, float deltay_) {
+  particula (float x_, float y_, float v_, float a_, float t_, color c_) {
     x=x_;
     y=y_;
     v=v_;
     a=a_;
     t=t_;
     c=c_;
-    deltax = deltax_;
-    deltay = deltay_;
   }
   particula () {
     x= random(500);
-    y= random (500);
-    v= random(10);
-    a= random (TWO_PI);
-    t= random(1, 30);
+    y= random(500);
+    t= 50;
+    a = 5;
+    v = 3;
     c= color (random(255), random(255), random(255));
-    deltax= 1;
-    deltay = 1;
   }
   particula(float x_, float y_) {
     x= x_;
     y= y_;
-    v= random(10);
-    a= random (TWO_PI);
-    t= random(1, 30);
+    t= 50;
+    a = 5;
+    v = 3;
     c= color (random(255), random(255), random(255));
-    deltax= 1;
-    deltay = 1;
   }
 
   void display() {
@@ -60,12 +56,32 @@ class particula {
     noStroke();
     fill(c);
 
-    ellipse (0, 0, t, t);
+    ellipse (10, 10, t, t);
 
     popMatrix();
   }
   void movimiento() {
-    x += deltax;
-    y += deltay;
+  x += cos(a)*v;
+   y += sin(a)*v;
+  }
+  
+  void botar()
+  {
+    if(y >= 600)
+    {
+     a = a*-1; 
+    }
+     if(x >= 600)
+    {
+     a = a*-2; 
+    }
+    if(y <= 0)
+    {
+     a = a*-1; 
+    }
+     if(x <= 0)
+    {
+     a = 1; 
+    }
   }
 }
